@@ -57,17 +57,17 @@ O diagrama a seguir representa o fluxo criado:
     },
     "Resp por Compras": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:REGIAO:ID_DA_CONTA:function:purchase_handler",
+      "Resource": "arn:aws:lambda:us-east-1:ID_minhaconta:function:purchase_handler",
       "Next": "Resp por Resultado"
     },
     "Resp por Reembolso": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:REGIAO:ID_DA_CONTA:function:refund_handler",
+      "Resource": "arn:aws:lambda:us-east-1:minhaconta:function:refund_handler",
       "Next": "Resp por Resultado"
     },
     "Resp por Resultado": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:REGIAO:ID_DA_CONTA:function:result_handler",
+      "Resource": "arn:aws:lambda:us-east-1:minhaconta:function:result_handler",
       "End": true
     }
   }
