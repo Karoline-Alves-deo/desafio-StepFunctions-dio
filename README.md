@@ -1,15 +1,15 @@
 # Projeto AWS Step Functions: Workflow de Compras e Reembolsos  
 
-Este projeto implementa um workflow automatizado no AWS Step Functions, capaz de diferenciar solicitações de compra e reembolso, executando funções distintas em cada caso e consolidando os resultados.
+Este projeto implementa um workflow automatizado no **AWS Step Functions**, capaz de diferenciar solicitações de compra e reembolso, executando funções distintas em cada caso e consolidando os resultados.
 
 ---
 
 ## Objetivos  
 
-Demonstrar a orquestração de funções Lambda com o AWS Step Functions;  
-Utilizar o estado **Choice** para tomada de decisão condicional; 
-Automatizar fluxos para diferentes tipos de requisições (`PURCHASE` e `REFUND`);  
-Consolidar respostas em uma função final (`Resp por Resultado`);  
+- Demonstrar a orquestração de funções Lambda com o AWS Step Functions;  
+- Utilizar o estado Choice para tomada de decisão condicional;  
+- Automatizar fluxos para diferentes tipos de requisições (`PURCHASE` e `REFUND`);  
+- Consolidar respostas em uma função final (`Resp por Resultado`).  
 
 ---
 
@@ -19,6 +19,7 @@ O diagrama a seguir representa o fluxo criado:
 
 <img width="477" height="344" alt="image" src="https://github.com/user-attachments/assets/8927febc-d2b2-4be4-9f73-1382650b5824" />
 
+---
 
 ### Explicação do Fluxo  
 
@@ -28,7 +29,7 @@ O diagrama a seguir representa o fluxo criado:
    - Se `$.type == "REFUND"` → executa `Lambda Resp por Reembolso`.  
 3. Após a execução, ambos os caminhos convergem para a função  
    **Lambda Resp por Resultado**, que retorna a resposta consolidada.  
-4. **End:** Finaliza o workflow.
+4. **End:** Finaliza o workflow.  
 
 ---
 
@@ -71,12 +72,14 @@ O diagrama a seguir representa o fluxo criado:
     }
   }
 }
+```
+
+---
 
 ## Funções Lambda
 
----
-purchase_handler.py
-
+### **purchase_handler.py**
+```python
 def lambda_handler(event, context):
     print("Processando compra...")
     item = event.get("item", "desconhecido")
@@ -88,9 +91,10 @@ def lambda_handler(event, context):
         "value": value,
         "message": f"Compra do item '{item}' no valor de R$ {value} processada com sucesso."
     }
+```
 
-refund_handler.py
-
+### **refund_handler.py**
+```python
 def lambda_handler(event, context):
     print("Processando reembolso...")
     item = event.get("item", "desconhecido")
@@ -102,8 +106,10 @@ def lambda_handler(event, context):
         "value": value,
         "message": f"Reembolso do item '{item}' no valor de R$ {value} processado com sucesso."
     }
-result_handler.py
+```
 
+### **result_handler.py**
+```python
 def lambda_handler(event, context):
     print("Consolidando resultado final...")
     return {
@@ -111,24 +117,41 @@ def lambda_handler(event, context):
         "finalResponse": event,
         "message": "Fluxo executado com sucesso via AWS Step Functions."
     }
+```
 
-## Exemplo de Entrada de Teste
 ---
 
-Para compra (PURCHASE):
+## Exemplo de Entrada de Teste
+
+### Para compra (`PURCHASE`)
+```json
 {
   "type": "PURCHASE",
   "item": "Notebook",
   "value": 3200
 }
+```
 
-Para reembolso (REFUND):
+### Para reembolso (`REFUND`)
+```json
 {
   "type": "REFUND",
   "item": "Headset",
   "value": 350
 }
+```
 
-Durante o desenvolvimento deste projeto, aprendi a configurar e realizar o deploy de funções Lambda integradas ao AWS Step Functions, aplicando o uso do Choice State para implementar lógica condicional. Também compreendi como orquestrar múltiplas tarefas Lambda dentro de um fluxo visual e monitorar suas execuções por meio do AWS CloudWatch, garantindo visibilidade e controle sobre cada etapa do processo automatizado.
+---
+ 
+
+Durante o desenvolvimento deste projeto, aprendi a configurar e realizar o deploy de funções Lambda integradas ao AWS Step Functions, aplicando o uso do Choice State para implementar lógica condicional.  
+Também compreendi como orquestrar múltiplas tarefas Lambda dentro de um fluxo visual e monitorar suas execuções por meio do AWS CloudWatch, garantindo visibilidade e controle sobre cada etapa do processo automatizado.  
+
+---
+
+## Autora  
+
+**Karoline Alves**  
+Entusiasta em tecnologia, robótica e computação em nuvem.  
 
 
