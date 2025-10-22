@@ -1,6 +1,6 @@
-# Projeto AWS Step Functions — Workflow de Compras e Reembolsos  
+# Projeto AWS Step Functions: Workflow de Compras e Reembolsos  
 
-Este projeto implementa um **workflow automatizado** no **AWS Step Functions**, capaz de **diferenciar solicitações de compra e reembolso**, executando funções distintas em cada caso e consolidando os resultados.
+Este projeto implementa um workflow automatizado no AWS Step Functions, capaz de diferenciar solicitações de compra e reembolso, executando funções distintas em cada caso e consolidando os resultados.
 
 ---
 
@@ -74,6 +74,7 @@ O diagrama a seguir representa o fluxo criado:
 
 ## Funções Lambda
 
+---
 purchase_handler.py
 
 def lambda_handler(event, context):
@@ -111,7 +112,23 @@ def lambda_handler(event, context):
         "message": "Fluxo executado com sucesso via AWS Step Functions."
     }
 
+## Exemplo de Entrada de Teste
+---
 
+Para compra (PURCHASE):
+{
+  "type": "PURCHASE",
+  "item": "Notebook",
+  "value": 3200
+}
 
+Para reembolso (REFUND):
+{
+  "type": "REFUND",
+  "item": "Headset",
+  "value": 350
+}
+
+Durante o desenvolvimento deste projeto, aprendi a configurar e realizar o deploy de funções Lambda integradas ao AWS Step Functions, aplicando o uso do Choice State para implementar lógica condicional. Também compreendi como orquestrar múltiplas tarefas Lambda dentro de um fluxo visual e monitorar suas execuções por meio do AWS CloudWatch, garantindo visibilidade e controle sobre cada etapa do processo automatizado.
 
 
